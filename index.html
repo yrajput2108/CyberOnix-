@@ -81,6 +81,22 @@
       from { opacity: 0.5; }
       to { opacity: 1; }
     }
+
+    /* Contact Icon Hover Effect */
+    .contact-item i,
+    .contact-item a,
+    .contact-item span {
+      transition: all 0.3s ease;
+    }
+    .contact-item:hover i {
+      color: #00e5ff;
+      filter: drop-shadow(0 0 8px #00e5ff);
+      transform: scale(1.2);
+    }
+    .contact-item:hover a,
+    .contact-item:hover span {
+      color: #00e5ff;
+    }
   </style>
 </head>
 <body>
@@ -170,20 +186,20 @@
       </form>
 
       <!-- Contact Info -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left text-gray-300 animate__animated animate__fadeInUp animate__delay-1s text-sm sm:text-base">
-        <div class="flex items-center space-x-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center text-left text-gray-300 animate__animated animate__fadeInUp animate__delay-1s text-sm sm:text-base">
+        <div class="contact-item flex items-center space-x-3 justify-center sm:justify-start">
           <i data-lucide="mail" class="text-cyan-400"></i>
           <span>support@cyberonix.com</span>
         </div>
-        <div class="flex items-center space-x-3">
+        <div class="contact-item flex items-center space-x-3 justify-center sm:justify-start">
           <i data-lucide="map-pin" class="text-cyan-400"></i>
           <span>Pune, Maharashtra, India</span>
         </div>
-        <div class="flex items-center space-x-3">
+        <div class="contact-item flex items-center space-x-3 justify-center sm:justify-start">
           <i data-lucide="instagram" class="text-cyan-400"></i>
           <a href="https://instagram.com/cyberonix" target="_blank" class="hover:text-cyan-300">@cyberonix</a>
         </div>
-        <div class="flex items-center space-x-3">
+        <div class="contact-item flex items-center space-x-3 justify-center sm:justify-start">
           <i data-lucide="linkedin" class="text-cyan-400"></i>
           <a href="https://linkedin.com/company/cyberonix" target="_blank" class="hover:text-cyan-300">CyberOnix LinkedIn</a>
         </div>
