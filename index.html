@@ -6,11 +6,13 @@
   <title>CyberOnix Solutions</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
     body {
       background: #0a0f1c;
       color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
     }
     canvas#matrix {
       position: fixed;
@@ -21,16 +23,77 @@
       z-index: -1;
       background: #0a0f1c;
     }
+    .typing {
+      border-right: 2px solid #00bfff;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 4s steps(30, end) infinite alternate, blink 0.7s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Loader */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0f1c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
+    #preloader img {
+      width: 100px;
+      height: 100px;
+      animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px #00bfff); }
+      to { filter: drop-shadow(0 0 20px #00bfff); }
+    }
+    #preloader h2 {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #00bfff;
+      animation: fadeText 2s infinite alternate;
+    }
+    @keyframes fadeText {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <img src="logo (1).png" alt="CyberOnix Logo">
+    <h2>Loading CyberOnix Solutions...</h2>
+  </div>
+
   <canvas id="matrix"></canvas>
 
   <!-- Navbar -->
-  <header class="bg-black/80 backdrop-blur-sm fixed w-full top-0 z-50 shadow-md border-b border-cyan-500/20">
+  <header class="bg-black/80 backdrop-blur-sm fixed w-full top-0 z-50 shadow-md border-b border-cyan-500/20 animate__animated animate__fadeInDown">
     <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
       <div class="flex items-center space-x-3">
-        <img src="logo (1).png" alt="CyberOnix Logo" class="h-10 w-10">
+        <img src="logo (1).png" alt="CyberOnix Logo" class="h-10 w-10 animate__animated animate__pulse animate__infinite">
         <h1 class="text-2xl font-bold text-cyan-400">CyberOnix Solutions</h1>
       </div>
       <nav class="hidden md:flex space-x-6">
@@ -51,32 +114,32 @@
 
   <!-- Hero Section -->
   <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-6">
-    <h2 class="text-4xl md:text-6xl font-bold text-cyan-400 drop-shadow-lg">Your Partner in Cyber Defense</h2>
-    <p class="mt-4 text-lg md:text-xl max-w-2xl text-gray-300">Delivering world-class Network Security, Linux Server Hardening, and Cybersecurity Training solutions tailored to protect and empower your digital future.</p>
-    <div class="mt-6 flex space-x-4">
-      <a href="#services" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg shadow-lg transition">Explore Services</a>
-      <a href="#contact" class="border border-cyan-500 hover:bg-cyan-600/20 text-cyan-400 px-6 py-3 rounded-lg shadow-lg transition">Get in Touch</a>
+    <h2 class="text-4xl md:text-6xl font-bold text-cyan-400 drop-shadow-lg typing">Your Partner in Cyber Defense</h2>
+    <p class="mt-4 text-lg md:text-xl max-w-2xl text-gray-300 animate__animated animate__fadeInUp animate__delay-1s">Delivering world-class Network Security, Linux Server Hardening, and Cybersecurity Training solutions tailored to protect and empower your digital future.</p>
+    <div class="mt-6 flex space-x-4 animate__animated animate__fadeInUp animate__delay-2s">
+      <a href="#services" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg shadow-lg transition transform hover:scale-105">Explore Services</a>
+      <a href="#contact" class="border border-cyan-500 hover:bg-cyan-600/20 text-cyan-400 px-6 py-3 rounded-lg shadow-lg transition transform hover:scale-105">Get in Touch</a>
     </div>
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="py-20 bg-black/70 backdrop-blur-sm">
+  <section id="services" class="py-20 bg-black/70 backdrop-blur-sm fade-in">
     <div class="max-w-6xl mx-auto px-6 text-center">
       <h3 class="text-3xl font-bold text-cyan-400 mb-10">Our Services</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-105 hover:shadow-cyan-500/40 transition-transform">
+        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
           <h4 class="text-xl font-semibold mb-3">Network Security</h4>
           <p class="text-gray-300">Protecting infrastructure with firewalls, IDS/IPS, and secure architecture design.</p>
         </div>
-        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-105 hover:shadow-cyan-500/40 transition-transform">
+        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
           <h4 class="text-xl font-semibold mb-3">Linux Server Hardening</h4>
           <p class="text-gray-300">Securing servers with OS hardening, patch management, and advanced configurations.</p>
         </div>
-        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-105 hover:shadow-cyan-500/40 transition-transform">
+        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
           <h4 class="text-xl font-semibold mb-3">Cybersecurity Solutions</h4>
           <p class="text-gray-300">Tailored penetration testing, risk assessment, and incident response services.</p>
         </div>
-        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-105 hover:shadow-cyan-500/40 transition-transform">
+        <div class="p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
           <h4 class="text-xl font-semibold mb-3">Training & Awareness</h4>
           <p class="text-gray-300">Professional cybersecurity training programs and awareness workshops.</p>
         </div>
@@ -85,7 +148,7 @@
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-20">
+  <section id="about" class="py-20 fade-in">
     <div class="max-w-5xl mx-auto px-6 text-center">
       <h3 class="text-3xl font-bold text-cyan-400 mb-6">About Us</h3>
       <p class="text-lg leading-relaxed text-gray-300">CyberOnix Solutions is a cybersecurity startup dedicated to safeguarding businesses and individuals in the digital era. Our mission is to provide cutting-edge services, robust Linux server protection, and expert-led training that empower organizations to combat evolving cyber threats effectively.</p>
@@ -93,18 +156,18 @@
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-black/70 backdrop-blur-sm">
+  <section id="contact" class="py-20 bg-black/70 backdrop-blur-sm fade-in">
     <div class="max-w-4xl mx-auto px-6 text-center">
       <h3 class="text-3xl font-bold text-cyan-400 mb-6">Get in Touch</h3>
-      <form class="grid grid-cols-1 gap-6 mb-10">
+      <form class="grid grid-cols-1 gap-6 mb-10 animate__animated animate__fadeInUp">
         <input type="text" placeholder="Your Name" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400">
         <input type="email" placeholder="Your Email" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400">
         <textarea placeholder="Your Message" rows="4" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400"></textarea>
-        <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg shadow-lg">Send Message</button>
+        <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg shadow-lg transform hover:scale-105 transition">Send Message</button>
       </form>
-      
+
       <!-- Contact Info -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left text-gray-300">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left text-gray-300 animate__animated animate__fadeInUp animate__delay-1s">
         <div class="flex items-center space-x-3">
           <i data-lucide="phone" class="text-cyan-400"></i>
           <span>+91 91468 65650</span>
@@ -126,13 +189,25 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-black/90 py-6 text-center border-t border-cyan-500/20">
+  <footer class="bg-black/90 py-6 text-center border-t border-cyan-500/20 animate__animated animate__fadeInUp">
     <p class="text-gray-500">© 2025 CyberOnix Solutions. All rights reserved.</p>
   </footer>
 
   <script>
     lucide.createIcons();
 
+    // Preloader logic
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      preloader.style.opacity = "1";
+      setTimeout(() => {
+        preloader.style.transition = "opacity 1s ease";
+        preloader.style.opacity = "0";
+        setTimeout(() => preloader.style.display = "none", 1000);
+      }, 1500);
+    });
+
+    // Mobile menu toggle
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     menuBtn.addEventListener('click', () => {
@@ -174,6 +249,21 @@
     window.addEventListener('resize', () => {
       canvas.height = window.innerHeight;
       canvas.width = window.innerWidth;
+    });
+
+    // Scroll animation trigger
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.2 };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
     });
   </script>
 </body>
