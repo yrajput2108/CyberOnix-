@@ -63,8 +63,8 @@
       z-index: 9999;
     }
     #preloader img {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       animation: glow 1.5s infinite alternate;
     }
     @keyframes glow {
@@ -73,32 +73,13 @@
     }
     #preloader h2 {
       margin-top: 20px;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       color: #00bfff;
       animation: fadeText 2s infinite alternate;
     }
     @keyframes fadeText {
       from { opacity: 0.5; }
       to { opacity: 1; }
-    }
-
-    /* Floating Button */
-    #contact-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #00bfff;
-      color: white;
-      border-radius: 50%;
-      padding: 16px;
-      box-shadow: 0 0 20px rgba(0,191,255,0.6);
-      cursor: pointer;
-      z-index: 999;
-      transition: transform 0.3s ease;
-    }
-    #contact-float:hover {
-      transform: scale(1.1);
-      background: #0094cc;
     }
   </style>
 </head>
@@ -115,8 +96,8 @@
   <header class="bg-black/80 backdrop-blur-sm fixed w-full top-0 z-50 shadow-md border-b border-cyan-500/20 animate__animated animate__fadeInDown">
     <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
       <div class="flex items-center space-x-3">
-        <img src="logo (1).png" alt="CyberOnix Logo" class="h-10 w-10 animate__animated animate__pulse animate__infinite">
-        <h1 class="text-xl md:text-2xl font-bold text-cyan-400">CyberOnix Solutions</h1>
+        <img src="logo (1).png" alt="CyberOnix Logo" class="h-9 w-9 animate__animated animate__pulse animate__infinite">
+        <h1 class="text-lg md:text-2xl font-bold text-cyan-400">CyberOnix Solutions</h1>
       </div>
       <nav class="hidden md:flex space-x-6 text-sm md:text-base">
         <a href="#home" class="hover:text-cyan-400 transition">Home</a>
@@ -135,61 +116,61 @@
   </header>
 
   <!-- Hero Section -->
-  <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-6">
-    <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-cyan-400 drop-shadow-lg typing">Your Partner in Cyber Defense</h2>
-    <p class="mt-4 text-base md:text-lg lg:text-xl max-w-2xl text-gray-300 animate__animated animate__fadeInUp animate__delay-1s">Delivering world-class Network Security, Linux Server Hardening, and Cybersecurity Training solutions tailored to protect and empower your digital future.</p>
+  <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6">
+    <h2 class="text-2xl sm:text-3xl md:text-5xl font-bold text-cyan-400 drop-shadow-lg typing">Your Partner in Cyber Defense</h2>
+    <p class="mt-4 text-sm sm:text-base md:text-lg max-w-2xl text-gray-300 animate__animated animate__fadeInUp animate__delay-1s">Delivering world-class Network Security, Linux Server Hardening, and Cybersecurity Training solutions tailored to protect and empower your digital future.</p>
     <div class="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 animate__animated animate__fadeInUp animate__delay-2s">
-      <a href="#services" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg shadow-lg transition transform hover:scale-105 text-sm md:text-base">Explore Services</a>
-      <a href="#contact" class="border border-cyan-500 hover:bg-cyan-600/20 text-cyan-400 px-6 py-3 rounded-lg shadow-lg transition transform hover:scale-105 text-sm md:text-base">Get in Touch</a>
+      <a href="#services" class="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-3 rounded-lg shadow-lg transition transform hover:scale-105 text-sm sm:text-base">Explore Services</a>
+      <a href="#contact" class="border border-cyan-500 hover:bg-cyan-600/20 text-cyan-400 px-5 py-3 rounded-lg shadow-lg transition transform hover:scale-105 text-sm sm:text-base">Get in Touch</a>
     </div>
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="py-20 bg-black/70 backdrop-blur-sm fade-in">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h3 class="text-2xl md:text-3xl font-bold text-cyan-400 mb-10">Our Services</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="stagger p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
-          <h4 class="text-lg md:text-xl font-semibold mb-3">Network Security</h4>
-          <p class="text-gray-300 text-sm md:text-base">Protecting infrastructure with firewalls, IDS/IPS, and secure architecture design.</p>
+  <section id="services" class="py-16 sm:py-20 bg-black/70 backdrop-blur-sm fade-in">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-400 mb-10">Our Services</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div class="stagger p-5 sm:p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
+          <h4 class="text-lg font-semibold mb-3">Network Security</h4>
+          <p class="text-gray-300 text-sm sm:text-base">Protecting infrastructure with firewalls, IDS/IPS, and secure architecture design.</p>
         </div>
-        <div class="stagger p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
-          <h4 class="text-lg md:text-xl font-semibold mb-3">Linux Server Hardening</h4>
-          <p class="text-gray-300 text-sm md:text-base">Securing servers with OS hardening, patch management, and advanced configurations.</p>
+        <div class="stagger p-5 sm:p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
+          <h4 class="text-lg font-semibold mb-3">Linux Server Hardening</h4>
+          <p class="text-gray-300 text-sm sm:text-base">Securing servers with OS hardening, patch management, and advanced configurations.</p>
         </div>
-        <div class="stagger p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
-          <h4 class="text-lg md:text-xl font-semibold mb-3">Cybersecurity Solutions</h4>
-          <p class="text-gray-300 text-sm md:text-base">Tailored penetration testing, risk assessment, and incident response services.</p>
+        <div class="stagger p-5 sm:p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
+          <h4 class="text-lg font-semibold mb-3">Cybersecurity Solutions</h4>
+          <p class="text-gray-300 text-sm sm:text-base">Tailored penetration testing, risk assessment, and incident response services.</p>
         </div>
-        <div class="stagger p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
-          <h4 class="text-lg md:text-xl font-semibold mb-3">Training & Awareness</h4>
-          <p class="text-gray-300 text-sm md:text-base">Professional cybersecurity training programs and awareness workshops.</p>
+        <div class="stagger p-5 sm:p-6 bg-gray-900 rounded-2xl shadow hover:scale-110 hover:shadow-cyan-500/40 transition-transform duration-500">
+          <h4 class="text-lg font-semibold mb-3">Training & Awareness</h4>
+          <p class="text-gray-300 text-sm sm:text-base">Professional cybersecurity training programs and awareness workshops.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-20 fade-in">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h3 class="text-2xl md:text-3xl font-bold text-cyan-400 mb-6">About Us</h3>
-      <p class="text-base md:text-lg leading-relaxed text-gray-300">CyberOnix Solutions is a cybersecurity startup dedicated to safeguarding businesses and individuals in the digital era. Our mission is to provide cutting-edge services, robust Linux server protection, and expert-led training that empower organizations to combat evolving cyber threats effectively.</p>
+  <section id="about" class="py-16 sm:py-20 fade-in">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-400 mb-6">About Us</h3>
+      <p class="text-sm sm:text-base md:text-lg leading-relaxed text-gray-300">CyberOnix Solutions is a cybersecurity startup dedicated to safeguarding businesses and individuals in the digital era. Our mission is to provide cutting-edge services, robust Linux server protection, and expert-led training that empower organizations to combat evolving cyber threats effectively.</p>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-black/70 backdrop-blur-sm fade-in">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <h3 class="text-2xl md:text-3xl font-bold text-cyan-400 mb-6">Get in Touch</h3>
-      <form class="grid grid-cols-1 gap-6 mb-10 animate__animated animate__fadeInUp">
-        <input type="text" placeholder="Your Name" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400 text-sm md:text-base">
-        <input type="email" placeholder="Your Email" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400 text-sm md:text-base">
-        <textarea placeholder="Your Message" rows="4" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400 text-sm md:text-base"></textarea>
-        <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg shadow-lg transform hover:scale-105 transition text-sm md:text-base">Send Message</button>
+  <section id="contact" class="py-16 sm:py-20 bg-black/70 backdrop-blur-sm fade-in">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-400 mb-6">Get in Touch</h3>
+      <form class="grid grid-cols-1 gap-4 sm:gap-6 mb-10 animate__animated animate__fadeInUp">
+        <input type="text" placeholder="Your Name" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400 text-sm sm:text-base">
+        <input type="email" placeholder="Your Email" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400 text-sm sm:text-base">
+        <textarea placeholder="Your Message" rows="4" class="p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-cyan-400 text-sm sm:text-base"></textarea>
+        <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-3 rounded-lg shadow-lg transform hover:scale-105 transition text-sm sm:text-base">Send Message</button>
       </form>
 
       <!-- Contact Info -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left text-gray-300 animate__animated animate__fadeInUp animate__delay-1s text-sm md:text-base">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left text-gray-300 animate__animated animate__fadeInUp animate__delay-1s text-sm sm:text-base">
         <div class="flex items-center space-x-3">
           <i data-lucide="phone" class="text-cyan-400"></i>
           <span>+91 98765 43210</span>
@@ -206,19 +187,18 @@
           <i data-lucide="instagram" class="text-cyan-400"></i>
           <a href="https://instagram.com/cyberonix" target="_blank" class="hover:text-cyan-300">@cyberonix</a>
         </div>
+        <div class="flex items-center space-x-3">
+          <i data-lucide="linkedin" class="text-cyan-400"></i>
+          <a href="https://linkedin.com/company/cyberonix" target="_blank" class="hover:text-cyan-300">CyberOnix LinkedIn</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="bg-black/90 py-6 text-center border-t border-cyan-500/20 animate__animated animate__fadeInUp">
-    <p class="text-gray-500 text-sm md:text-base">© 2025 CyberOnix Solutions. All rights reserved.</p>
+    <p class="text-gray-500 text-sm sm:text-base">© 2025 CyberOnix Solutions. All rights reserved.</p>
   </footer>
-
-  <!-- Floating Contact Button -->
-  <a href="#contact" id="contact-float" title="Contact Us">
-    <i data-lucide="message-circle"></i>
-  </a>
 
   <script>
     lucide.createIcons();
