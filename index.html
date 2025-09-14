@@ -1,399 +1,395 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CyberOnix Solutions — Cybersecurity & Network Defense</title>
-  <meta name="description" content="CyberOnix Solutions — Network Security, Linux Server Hardening, Penetration Testing, Incident Response and Professional Training.">
-  <link rel="icon" href="https://placehold.co/32x32/00d1ff/000000?text=CO" type="image/png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  <style>
-    :root{
-      --bg:#061022; --card:#0b1320; --accent:#00d1ff; --muted:#9aa7b2;
-    }
-    html,body{height:100%;}
-    body{
-      background:linear-gradient(180deg,#041025 0%, #071826 100%);
-      color:#e6f7ff; font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; overflow-x:hidden;
-    }
-    /* matrix canvas */
-    canvas#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:0.08}
-    /* subtle glass container */
-    .glass{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); backdrop-filter:blur(6px)}
-    /* preloader */
-    #preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--bg);z-index:60}
-    #preloader img{width:72px;height:72px;animation:spin 1.8s linear infinite}
-    @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-    /* small helpers */
-    .typing{border-right:2px solid var(--accent);white-space:nowrap;overflow:hidden;animation:typing 4s steps(30,end) infinite alternate,blink .8s step-end infinite}
-    @keyframes typing{from{width:0}to{width:100%}}@keyframes blink{50%{border-color:transparent}}
-    a:focus{outline:2px dashed var(--accent);outline-offset:3px}
-    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
-    /* service icon sizes */
-    .svc-icon{height:44px;width:44px}
-    /* responsive tweaks */
-    @media (min-width:1024px){.hero-grid{grid-template-columns:1fr 420px}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberOnix Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Poppins:wght@400;600&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            overflow-x: hidden;
+        }
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .container-glow {
+            box-shadow: 0 0 15px rgba(90, 200, 250, 0.4);
+            transition: all 0.3s ease;
+        }
+        .container-glow:hover {
+            box-shadow: 0 0 30px rgba(90, 200, 250, 0.8);
+            transform: translateY(-5px);
+        }
+        .hero-heading {
+            animation: fadeInTop 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInTop {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .stagger-in {
+            animation: fadeInRight 0.8s ease forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        @keyframes fadeInRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Message Box Styling */
+        #message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            background-color: #1f2833;
+            border: 2px solid #66fcf1;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+        }
+        #message-box.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
 </head>
 <body>
-  <!-- Preloader -->
-  <div id="preloader" aria-hidden="true">
-    <img src="https://placehold.co/72x72/00d1ff/000000?text=CO" alt="CyberOnix logo">
-    <div class="mt-4 text-accent text-sm" style="color:var(--accent)">Initializing secure experience...</div>
-  </div>
-
-  <canvas id="matrix" aria-hidden="true"></canvas>
-
-  <!-- MODAL for messages - Replaces alert() -->
-  <div id="message-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300">
-    <div class="glass p-6 rounded-xl border border-cyan-600/6 shadow-xl max-w-sm w-full text-center animate__animated animate__fadeInUp">
-      <div id="message-content" class="text-white"></div>
-      <button onclick="document.getElementById('message-modal').classList.add('hidden')" class="mt-4 bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg text-sm font-medium">OK</button>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 w-full z-40 shadow-md glass border-b border-cyan-600/10">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="https://placehold.co/40x40/00d1ff/000000?text=CO" alt="CyberOnix logo" class="h-10 w-10 rounded-md">
-        <div>
-          <a href="#home" class="text-lg font-semibold text-cyan-300">CyberOnix Solutions</a>
-          <div class="text-xs text-muted">Securing your digital future</div>
-        </div>
-      </div>
-
-      <nav class="hidden md:flex items-center gap-6 text-sm text-gray-200" aria-label="Primary navigation">
-        <a href="#home" class="hover:text-cyan-200">Home</a>
-        <a href="#services" class="hover:text-cyan-200">Services</a>
-        <a href="#about" class="hover:text-cyan-200">About</a>
-        <a href="#founder" class="hover:text-cyan-200">Founder</a>
-        <a href="#careers" class="hover:text-cyan-200">Careers</a>
-        <a href="#contact" class="hover:text-cyan-200">Contact</a>
-      </nav>
-
-      <div class="flex items-center gap-3">
-        <a href="#contact" class="hidden sm:inline-block bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg text-sm font-medium">Get Consultation</a>
-        <button id="menu-btn" class="md:hidden p-2 rounded-md bg-black/40" aria-expanded="false" aria-controls="mobile-menu">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- mobile menu -->
-    <div id="mobile-menu" class="md:hidden hidden bg-black/60 border-t border-cyan-600/10">
-      <div class="px-4 py-3 flex flex-col gap-2">
-        <a href="#home" class="py-2">Home</a>
-        <a href="#services" class="py-2">Services</a>
-        <a href="#about" class="py-2">About</a>
-        <a href="#founder" class="py-2">Founder</a>
-        <a href="#careers" class="py-2">Careers</a>
-        <a href="#contact" class="py-2">Contact</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <main id="home" class="min-h-screen flex items-center">
-    <div class="max-w-7xl mx-auto px-6 py-28 w-full">
-      <div class="grid gap-10 hero-grid items-center">
-        <section class="space-y-6">
-          <p class="inline-block px-3 py-1 rounded-full text-xs font-medium text-cyan-900 bg-cyan-300/20">Trusted • Responsive • Compliant</p>
-          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">Your Partner in Cyber Defense — <span style="color:var(--accent)">CyberOnix Solutions</span></h1>
-          <p class="text-lg text-muted max-w-2xl">We help enterprises and startups build resilient systems through Network Security, Linux Server Hardening, Penetration Testing, Incident Response and expert-led training programs.</p>
-
-          <div class="flex gap-3 items-center">
-            <a href="#services" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg shadow">Explore Services</a>
-            <a href="#contact" class="inline-flex items-center gap-2 border border-cyan-500 px-4 py-2 rounded-lg">Request a Quote</a>
-          </div>
-
-          <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm text-muted">
-            <div class="flex gap-2 items-center"><strong class="text-cyan-300">99.9%</strong><span>Uptime Support</span></div>
-            <div class="flex gap-2 items-center"><strong class="text-cyan-300">ISO</strong><span>27001 Ready</span></div>
-            <div class="flex gap-2 items-center"><strong class="text-cyan-300">100s</strong><span>Systems audited</span></div>
-            <div class="flex gap-2 items-center"><strong class="text-cyan-300">200+</strong><span>Trained professionals</span></div>
-          </div>
-        </section>
-
-        <!-- Quick contact card -->
-        <aside class="glass rounded-2xl p-6 shadow-lg border border-cyan-600/10">
-          <h3 class="text-xl font-semibold">Quick Inquiry</h3>
-          <p class="text-sm text-muted mt-2">Leave your contact and we'll get back within one business day.</p>
-          <form id="quick-form" class="mt-4 grid gap-3" aria-label="Quick contact form">
-            <input name="name" required placeholder="Full name" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400">
-            <input name="email" type="email" required placeholder="Email address" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400">
-            <input name="company" placeholder="Company (optional)" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400">
-            <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg">Request Callback</button>
-            <p id="quick-form-note" class="text-xs text-muted">Or email us at <a href="mailto:cyberonixsolutions@gmail.com" class="text-cyan-300">cyberonixsolutions@gmail.com</a></p>
-          </form>
-        </aside>
-      </div>
-    </div>
-  </main>
-
-  <!-- SERVICES -->
-  <section id="services" class="py-16 border-t border-cyan-600/6">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl font-bold text-cyan-300">Our Services</h2>
-        <p class="text-muted mt-2">Comprehensive services tailor-made to secure modern IT estates.</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- card 1 -->
-        <article class="p-5 glass rounded-2xl border border-cyan-600/6 shadow-sm">
-          <div class="flex items-start gap-4">
-            <div class="svc-icon bg-[#041422] rounded-lg p-2 flex items-center justify-center">
-              <i data-lucide="shield-check" class="text-cyan-300"></i>
+    <!-- Particle Background Canvas -->
+    <canvas id="particles"></canvas>
+    <!-- Header -->
+    <header class="fixed w-full z-50 p-4 backdrop-blur-sm bg-gray-900/60 shadow-lg animate-fade-down animate-once">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center text-sm md:text-base">
+            <a href="#" class="flex items-center space-x-2">
+                <img src="logo (1).png" alt="CyberOnix Solutions Logo" class="h-12 w-12 animate-pulse">
+                <span class="text-xl md:text-2xl font-bold text-[#66fcf1]">CyberOnix Solutions</span>
+            </a>
+            <div class="hidden md:flex space-x-6 text-white font-medium">
+                <a href="#home" class="hover:text-[#45a29e] transition-colors">Home</a>
+                <a href="#services" class="hover:text-[#45a29e] transition-colors">Services</a>
+                <a href="#expertise" class="hover:text-[#45a29e] transition-colors">Expertise</a>
+                <a href="#about" class="hover:text-[#45a29e] transition-colors">About</a>
+                <a href="#contact" class="hover:text-[#45a29e] transition-colors">Contact</a>
             </div>
-            <div>
-              <h3 class="font-semibold">Network Security</h3>
-              <p class="text-sm text-muted mt-1">Firewalls, IDS/IPS, secure architecture, segmentation and secure remote access.</p>
-              <a href="#" class="mt-3 inline-block text-sm text-cyan-300">Learn more →</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="p-5 glass rounded-2xl border border-cyan-600/6 shadow-sm">
-          <div class="flex items-start gap-4">
-            <div class="svc-icon bg-[#041422] rounded-lg p-2 flex items-center justify-center">
-              <i data-lucide="server" class="text-cyan-300"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold">Linux Server Hardening</h3>
-              <p class="text-sm text-muted mt-1">OS hardening, secure configuration baselines, patch automation and monitoring.</p>
-              <a href="#" class="mt-3 inline-block text-sm text-cyan-300">Learn more →</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="p-5 glass rounded-2xl border border-cyan-600/6 shadow-sm">
-          <div class="flex items-start gap-4">
-            <div class="svc-icon bg-[#041422] rounded-lg p-2 flex items-center justify-center">
-              <i data-lucide="search" class="text-cyan-300"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold">Penetration Testing</h3>
-              <p class="text-sm text-muted mt-1">Web, network and cloud assessments with actionable remediation and reporting.</p>
-              <a href="#" class="mt-3 inline-block text-sm text-cyan-300">Learn more →</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="p-5 glass rounded-2xl border border-cyan-600/6 shadow-sm">
-          <div class="flex items-start gap-4">
-            <div class="svc-icon bg-[#041422] rounded-lg p-2 flex items-center justify-center">
-              <i data-lucide="book" class="text-cyan-300"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold">Training & Awareness</h3>
-              <p class="text-sm text-muted mt-1">Hands-on workshops, executive briefings and security awareness for teams.</p>
-              <a href="#" class="mt-3 inline-block text-sm text-cyan-300">Learn more →</a>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <!-- optional deeper features -->
-      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="glass p-4 rounded-lg border border-cyan-600/6">
-          <h4 class="font-semibold">Incident Response</h4>
-          <p class="text-sm text-muted mt-1">Rapid containment and forensics-support with clear escalation paths.</p>
+            <button id="mobile-menu-btn" class="text-white md:hidden focus:outline-none">
+                <i data-lucide="menu" class="h-8 w-8 text-[#66fcf1]"></i>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-16 left-0 w-full bg-gray-900/80 backdrop-blur-sm shadow-md">
+            <a href="#home" class="block px-4 py-3 text-white hover:bg-gray-800 transition-colors">Home</a>
+            <a href="#services" class="block px-4 py-3 text-white hover:bg-gray-800 transition-colors">Services</a>
+            <a href="#expertise" class="block px-4 py-3 text-white hover:bg-gray-800 transition-colors">Expertise</a>
+            <a href="#about" class="block px-4 py-3 text-white hover:bg-gray-800 transition-colors">About</a>
+            <a href="#contact" class="block px-4 py-3 text-white hover:bg-gray-800 transition-colors">Contact</a>
         </div>
-        <div class="glass p-4 rounded-lg border border-cyan-600/6">
-          <h4 class="font-semibold">Vulnerability Management</h4>
-          <p class="text-sm text-muted mt-1">Continuous scanning, prioritized triage and remediation pipelines.</p>
+    </header>
+    <!-- Hero Section -->
+    <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-4">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-tight hero-heading mb-4">Your Partner in Cyber Defense</h1>
+        <p class="mt-4 text-md sm:text-lg md:text-xl max-w-3xl text-gray-400 stagger-in animate-delay-[.5s]">Delivering world-class Network Security, Linux Server Hardening, and Cybersecurity Training solutions tailored to protect and empower your digital future.</p>
+        <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 stagger-in animate-delay-[1s]">
+            <a href="#services" class="bg-[#66fcf1] text-[#0b0c10] font-semibold px-8 py-3 rounded-full hover:bg-[#45a29e] transition transform hover:scale-105 shadow-md">Explore Our Services</a>
+            <a href="#contact" class="border border-[#66fcf1] text-[#66fcf1] font-semibold px-8 py-3 rounded-full hover:bg-[#66fcf1]/20 transition transform hover:scale-105">Get in Touch</a>
         </div>
-        <div class="glass p-4 rounded-lg border border-cyan-600/6">
-          <h4 class="font-semibold">Compliance & Audit</h4>
-          <p class="text-sm text-muted mt-1">PCI/DSS, ISO 27001 readiness and custom policy frameworks.</p>
+    </section>
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-[#1f2833] text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl sm:text-4xl font-bold text-[#66fcf1] mb-12">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center">
+                    <i data-lucide="shield-check" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Network Security</h3>
+                    <p class="text-sm text-gray-400">Protecting infrastructure with firewalls, IDS/IPS, and secure architecture design.</p>
+                </div>
+                <div class="stagger-in animate-delay-[.2s] p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center">
+                    <i data-lucide="server" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Linux Server Hardening</h3>
+                    <p class="text-sm text-gray-400">Securing servers with OS hardening, patch management, and advanced configurations.</p>
+                </div>
+                <div class="stagger-in animate-delay-[.4s] p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center">
+                    <i data-lucide="bug-off" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Cybersecurity Solutions</h3>
+                    <p class="text-sm text-gray-400">Tailored penetration testing, risk assessment, and incident response services.</p>
+                </div>
+                <div class="stagger-in animate-delay-[.6s] p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center">
+                    <i data-lucide="graduation-cap" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Training & Awareness</h3>
+                    <p class="text-sm text-gray-400">Professional cybersecurity training programs and awareness workshops.</p>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
+    <!-- Expertise Section -->
+    <section id="expertise" class="py-20 bg-[#0b0c10] text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl sm:text-4xl font-bold text-[#66fcf1] mb-12">Our Expertise</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center animate-delay-[.1s]">
+                    <i data-lucide="lock" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Penetration Testing</h3>
+                    <p class="text-sm text-gray-400">Identifying vulnerabilities in systems and networks through simulated attacks.</p>
+                </div>
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center animate-delay-[.2s]">
+                    <i data-lucide="scan-eye" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Vulnerability Assessment</h3>
+                    <p class="text-sm text-gray-400">Comprehensive analysis to identify security weaknesses and provide remediation strategies.</p>
+                </div>
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center animate-delay-[.3s]">
+                    <i data-lucide="activity" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Incident Response</h3>
+                    <p class="text-sm text-gray-400">Developing and executing strategies to contain and recover from security breaches.</p>
+                </div>
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center animate-delay-[.4s]">
+                    <i data-lucide="database" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Data Privacy & Compliance</h3>
+                    <p class="text-sm text-gray-400">Ensuring compliance with regulatory standards like GDPR, HIPAA, and CCPA.</p>
+                </div>
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center animate-delay-[.5s]">
+                    <i data-lucide="shield" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Security Audits</h3>
+                    <p class="text-sm text-gray-400">Thorough audits to evaluate the effectiveness of existing security controls and policies.</p>
+                </div>
+                <div class="stagger-in p-6 bg-gray-900/50 rounded-2xl container-glow flex flex-col items-center text-center animate-delay-[.6s]">
+                    <i data-lucide="search" class="text-[#66fcf1] mb-4 h-12 w-12"></i>
+                    <h3 class="text-xl font-semibold text-white mb-2">Cyber Crime Investigation</h3>
+                    <p class="text-sm text-gray-400">Investigating digital forensic evidence to trace and identify perpetrators of cybercrimes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-[#1f2833]">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-[#66fcf1] mb-6">About Us</h2>
+            <p class="text-md sm:text-lg leading-relaxed text-gray-400">CyberOnix Solutions is a cybersecurity startup dedicated to safeguarding businesses and individuals in the digital era. Our mission is to provide cutting-edge services, robust Linux server protection, and expert-led training that empower organizations to combat evolving cyber threats effectively.</p>
+        </div>
+    </section>
+    <!-- Founder Section -->
+    <section id="founder" class="py-20 bg-[#0b0c10]">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-[#66fcf1] mb-8">Meet the Founder</h2>
+            <div class="bg-gray-900/50 p-8 rounded-2xl flex flex-col md:flex-row items-center md:space-x-8 container-glow">
+                <div class="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden flex-shrink-0 mb-6 md:mb-0 border-4 border-[#66fcf1] shadow-lg animate-fade-in animate-once">
+                    <img src="myprofile.png" alt="Founder's Photo" class="w-full h-full object-cover">
+                </div>
+                <div class="text-left">
+                    <h3 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Yash Rajput</h3>
+                    <p class="text-md sm:text-lg text-gray-400 mb-4">Founder & CEO</p>
+                    <p class="text-sm sm:text-base text-gray-300 leading-relaxed">Gaurav Gunjal is the visionary behind CyberOnix Solutions. With over a decade of experience in cybersecurity, he has a passion for building secure digital infrastructures and empowering the next generation of cybersecurity professionals. His expertise spans network security, ethical hacking, and advanced threat analysis, making him a trusted leader in the field.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-[#1f2833] text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl sm:text-4xl font-bold text-[#66fcf1] mb-8">Get in Touch</h2>
+            <form id="contact-form" class="space-y-6">
+                <input type="text" id="name" placeholder="Your Name" class="w-full p-4 rounded-lg bg-gray-900/50 border border-transparent focus:border-[#66fcf1] focus:outline-none transition-colors">
+                <input type="email" id="email" placeholder="Your Email" class="w-full p-4 rounded-lg bg-gray-900/50 border border-transparent focus:border-[#66fcf1] focus:outline-none transition-colors">
+                <textarea id="message" placeholder="Your Message" rows="5" class="w-full p-4 rounded-lg bg-gray-900/50 border border-transparent focus:border-[#66fcf1] focus:outline-none transition-colors"></textarea>
+                <button type="submit" id="submit-btn" class="w-full bg-[#66fcf1] text-[#0b0c10] font-semibold px-8 py-4 rounded-full hover:bg-[#45a29e] transition transform hover:scale-105 shadow-md flex justify-center items-center">
+                    Send Message
+                </button>
+            </form>
+            <div class="mt-12 flex justify-center space-x-8 text-white">
+                <a href="mailto:cyberonixsolutions@gmail.com" class="stagger-in animate-delay-[.2s] hover:text-[#45a29e] transition-colors" aria-label="Email">
+                    <i data-lucide="mail" class="h-10 w-10 text-[#66fcf1] hover:scale-110 transition-transform"></i>
+                </a>
+                <a href="https://maps.google.com/?q=Nashik,Maharashtra,India" target="_blank" class="stagger-in animate-delay-[.4s] hover:text-[#45a29e] transition-colors" aria-label="Location">
+                    <i data-lucide="map-pin" class="h-10 w-10 text-[#66fcf1] hover:scale-110 transition-transform"></i>
+                </a>
+                <a href="https://instagram.com/cyberonix_solutions" target="_blank" class="stagger-in animate-delay-[.6s] hover:text-[#45a29e] transition-colors" aria-label="Instagram">
+                    <i data-lucide="instagram" class="h-10 w-10 text-[#66fcf1] hover:scale-110 transition-transform"></i>
+                </a>
+                <a href="https://linkedin.com/company/cyberonix-solutions" target="_blank" class="stagger-in animate-delay-[.8s] hover:text-[#45a29e] transition-colors" aria-label="LinkedIn">
+                    <i data-lucide="linkedin" class="h-10 w-10 text-[#66fcf1] hover:scale-110 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-[#0b0c10] py-6 text-center border-t border-[#66fcf1]/20">
+        <p class="text-gray-500 text-sm">© 2025 CyberOnix Solutions. All rights reserved.</p>
+    </footer>
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top bg-gray-800/80 backdrop-blur-sm p-4 rounded-full shadow-lg hover:bg-gray-700/80 transition-all duration-300">
+        <i data-lucide="arrow-up" class="h-6 w-6 text-[#66fcf1]"></i>
+    </button>
+    <!-- Message Box -->
+    <div id="message-box" class="hidden">
+        <h3 id="message-title" class="text-2xl font-semibold mb-4 text-[#66fcf1]"></h3>
+        <p id="message-text" class="text-gray-300 mb-6"></p>
+        <button id="close-message-box" class="bg-[#66fcf1] text-[#0b0c10] font-semibold px-6 py-2 rounded-full hover:bg-[#45a29e] transition-colors">OK</button>
     </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-16">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h2 class="text-2xl font-bold text-cyan-300">About CyberOnix</h2>
-      <p class="mt-3 text-muted">Founded to help Indian businesses secure modern infrastructures using practical engineering, threat-informed testing and clear reporting.</p>
-
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="glass p-6 rounded-xl border border-cyan-600/6 text-left">
-          <h3 class="font-semibold">Our Mission</h3>
-          <p class="text-sm text-muted mt-2">To reduce cyber risk for organizations by delivering pragmatic security solutions that are measurable and repeatable.</p>
-        </div>
-        <div class="glass p-6 rounded-xl border border-cyan-600/6 text-left">
-          <h3 class="font-semibold">Our Vision</h3>
-          <p class="text-sm text-muted mt-2">A world where technology empowers without exposing people and businesses to preventable risk.</p>
-        </div>
-        <div class="glass p-6 rounded-xl border border-cyan-600/6 text-left">
-          <h3 class="font-semibold">Certifications & Partners</h3>
-          <p class="text-sm text-muted mt-2">CEH, OSCP (partners), ISO readiness. Replace with real badges when available.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOUNDER SECTION -->
-  <section id="founder" class="py-16 border-t border-cyan-600/6">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h2 class="text-2xl font-bold text-cyan-300">Meet the Founder</h2>
-      <div class="mt-8 flex flex-col md:flex-row items-center gap-8 glass p-6 rounded-xl border border-cyan-600/6 text-left">
-        <div class="w-48 h-48 flex-shrink-0 rounded-full overflow-hidden border-2 border-cyan-500 shadow-lg">
-          <img src="https://placehold.co/400x400/00d1ff/000000?text=Jane+Doe" alt="Founder's portrait" class="w-full h-full object-cover">
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold">Jane Doe</h3>
-          <p class="text-sm text-muted">Chief Security Strategist</p>
-          <p class="mt-4 text-white">Jane is a seasoned cybersecurity professional with over 15 years of experience in network defense and penetration testing. With a passion for building secure and resilient digital systems, she founded CyberOnix to bring threat-informed security practices to businesses of all sizes. Her philosophy is to empower organizations with practical, effective, and sustainable security solutions.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CAREERS / TRUST -->
-  <section id="careers" class="py-12 border-t border-cyan-600/6">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div>
-          <h3 class="text-xl font-semibold">Join the team</h3>
-          <p class="text-sm text-muted mt-1">We hire curious engineers, analysts and investigators. <a href="#" class="text-cyan-300">View open roles</a>.</p>
-        </div>
-        <div class="flex gap-4 items-center">
-          <!-- placeholder trust logos replaced with placehold.co -->
-          <img src="https://placehold.co/90x40/f4f5f5/000000?text=Partner+1" alt="trust logo" class="h-10 opacity-80">
-          <img src="https://placehold.co/90x40/f4f5f5/000000?text=Partner+2" alt="trust logo" class="h-10 opacity-80">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="py-16 bg-black/20 border-t border-cyan-600/6">
-    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="glass p-6 rounded-2xl border border-cyan-600/6">
-        <h3 class="text-xl font-semibold">Get in touch</h3>
-        <p class="text-sm text-muted mt-2">Tell us about your project and a security specialist will reach out.</p>
-
-        <form id="contact-form" class="mt-4 grid gap-3" aria-label="Contact form">
-          <label class="sr-only" for="c-name">Full name</label>
-          <input id="c-name" name="name" required placeholder="Full name" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400">
-
-          <label class="sr-only" for="c-email">Email</label>
-          <input id="c-email" name="email" type="email" required placeholder="Email address" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400">
-
-          <label class="sr-only" for="c-subject">Subject</label>
-          <input id="c-subject" name="subject" placeholder="Subject" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400">
-
-          <label class="sr-only" for="c-message">Message</label>
-          <textarea id="c-message" name="message" rows="5" required placeholder="Briefly describe your requirement" class="p-3 rounded-lg bg-[#071220] border border-gray-800 focus:border-cyan-400"></textarea>
-
-          <div class="flex items-center gap-3">
-            <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg">Send Message</button>
-            <button type="button" id="download-brochure" class="border border-cyan-500 px-3 py-2 rounded-lg">Download Brochure</button>
-          </div>
-
-          <p class="text-xs text-muted">Or reach us directly: <a href="mailto:cyberonixsolutions@gmail.com" class="text-cyan-300">cyberonixsolutions@gmail.com</a></p>
-        </form>
-      </div>
-
-      <div class="rounded-2xl overflow-hidden border border-cyan-600/6">
-        <!-- Replace map src with your Google Maps embed API key URL or static map -->
-        <iframe title="CyberOnix location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.0!2d73.789!3d19.999" width="100%" height="100%" style="min-height:380px;border:0;" allowfullscreen="" loading="lazy"></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="py-8 border-t border-cyan-600/6 mt-8">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="text-sm text-muted">© 2025 CyberOnix Solutions. All rights reserved.</div>
-      <div class="flex items-center gap-4">
-        <a href="#privacy" class="text-sm text-muted">Privacy</a>
-        <a href="#terms" class="text-sm text-muted">Terms</a>
-        <a href="https://linkedin.com/company/cyberonix-solutions" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="text-cyan-300">
-          <i data-lucide="linkedin"></i>
-        </a>
-        <a href="https://instagram.com/cyberonix" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile" class="text-cyan-300">
-          <i data-lucide="instagram"></i>
-        </a>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // Helper function to show a custom message box
-    function showMessageBox(message) {
-      const modal = document.getElementById('message-modal');
-      const content = document.getElementById('message-content');
-      content.innerText = message;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    lucide.createIcons();
-
-    // Preloader hide
-    window.addEventListener('load', () => {
-      const pre = document.getElementById('preloader');
-      pre.style.transition = 'opacity .6s ease'; pre.style.opacity = '0'; setTimeout(()=>pre.remove(),700);
-    });
-
-    // mobile menu toggle
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuBtn.addEventListener('click', ()=>{
-      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-      menuBtn.setAttribute('aria-expanded', !expanded);
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // matrix canvas (subtle)
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext && canvas.getContext('2d');
-    if (ctx){
-      function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-      resize(); addEventListener('resize', resize);
-      const cols = Math.floor(canvas.width/14); const drops = Array(cols).fill(0);
-      const letters = '01'.split('');
-      function draw(){
-        ctx.fillStyle = 'rgba(4,8,19,0.12)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = 'rgba(0,209,255,0.18)'; ctx.font = '12pt monospace';
-        for(let i=0;i<drops.length;i++){
-          const ch = letters[Math.floor(Math.random()*letters.length)];
-          ctx.fillText(ch, i*14, drops[i]*14);
-          if(drops[i]*14>canvas.height && Math.random()>0.975) drops[i]=0; drops[i]++;
+    <script>
+        lucide.createIcons();
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        // Particle Background with Three.js
+        window.onload = function () {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('particles'), antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            const particleCount = 2000;
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+            const color = new THREE.Color();
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 2,
+                vertexColors: true,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.7
+            });
+            for (let i = 0; i < particleCount; i++) {
+                const x = (Math.random() - 0.5) * 1000;
+                const y = (Math.random() - 0.5) * 1000;
+                const z = (Math.random() - 0.5) * 1000;
+                positions.push(x, y, z);
+                color.setHSL(0.5, 0.5, 0.8); // A nice blue-green color
+                colors.push(color.r, color.g, color.b);
+            }
+            particlesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            const particles = new THREE.Points(particlesGeometry, particleMaterial);
+            scene.add(particles);
+            camera.position.z = 500;
+            function animate() {
+                requestAnimationFrame(animate);
+                particles.rotation.x += 0.0005;
+                particles.rotation.y += 0.0007;
+                renderer.render(scene, camera);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('animate-once');
+            observer.observe(section);
+        });
+        // Staggered animations for cards
+        const staggerObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.animationName = 'fadeInRight';
+                    }, index * 150);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.stagger-in').forEach(item => {
+            staggerObserver.observe(item);
+        });
+        // Scroll to Top Button Logic
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        // Contact Form Submission Logic (Simulated)
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+        const closeMessageBoxBtn = document.getElementById('close-message-box');
+        
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Simple validation
+            if (!nameInput.value || !emailInput.value || !messageInput.value) {
+                showMessageBox('Error', 'Please fill out all fields.');
+                return;
+            }
+            // Show loading state on button
+            submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+            submitBtn.disabled = true;
+            // Simulate API call
+            setTimeout(() => {
+                showMessageBox('Success!', 'Thank you for your message. We will get back to you shortly.');
+                // Reset form and button state
+                contactForm.reset();
+                submitBtn.innerHTML = 'Send Message';
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+        closeMessageBoxBtn.addEventListener('click', () => {
+            messageBox.classList.remove('show');
+        });
+        function showMessageBox(title, message) {
+            messageTitle.textContent = title;
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden');
+            setTimeout(() => {
+                messageBox.classList.add('show');
+            }, 10); // Small delay to allow for CSS transition
         }
-      }
-      setInterval(draw,40);
-    }
-
-    // Quick form submit (placeholder)
-    document.getElementById('quick-form').addEventListener('submit', async (e)=>{
-      e.preventDefault(); const fd = new FormData(e.target);
-      // The original fetch call is replaced with a custom message box since the API is not available
-      showMessageBox('Thank you — your inquiry has been received. We will contact you soon.');
-      e.target.reset();
-    });
-
-    // Contact form submit
-    document.getElementById('contact-form').addEventListener('submit', async (e)=>{
-      e.preventDefault(); const fd = new FormData(e.target);
-      // The original fetch call is replaced with a custom message box since the API is not available
-      showMessageBox('Message sent — we will reply to your message soon.');
-      e.target.reset();
-    });
-
-    // Download brochure (placeholder - replace path when brochure available)
-    document.getElementById('download-brochure').addEventListener('click', ()=>{
-      // This is a placeholder for a real brochure download link.
-      // A placeholder PDF is not used to prevent unexpected behavior.
-      showMessageBox('Download not available at this time. Please contact us directly for a brochure.');
-    });
-  </script>
+    </script>
 </body>
 </html>
