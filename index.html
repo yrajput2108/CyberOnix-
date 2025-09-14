@@ -93,7 +93,7 @@
     <header class="fixed w-full z-50 p-4 backdrop-blur-sm bg-gray-900/60 shadow-lg animate-fade-down animate-once">
         <nav class="max-w-7xl mx-auto flex justify-between items-center text-sm md:text-base">
             <a href="#" class="flex items-center space-x-2">
-                <img src="logo (1).jpg" alt="CyberOnix Solutions Logo" class="h-8 w-8">
+                <img src="logo (1).png" alt="CyberOnix Solutions Logo" class="h-13 w-12">
                 <span class="text-xl md:text-2xl font-bold text-[#66fcf1]">CyberOnix Solutions</span>
             </a>
             <div class="hidden md:flex space-x-6 text-white font-medium">
@@ -208,7 +208,7 @@
                 <div class="text-center md:text-left">
                     <h3 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Yash Rajput</h3>
                     <p class="text-md sm:text-lg text-gray-400 mb-4">Founder & CEO</p>
-                    <p class="text-sm sm:text-base text-gray-300 leading-relaxed">Gaurav Gunjal is the visionary behind CyberOnix Solutions. With over a decade of experience in cybersecurity, he has a passion for building secure digital infrastructures and empowering the next generation of cybersecurity professionals. His expertise spans network security, ethical hacking, and advanced threat analysis, making him a trusted leader in the field.</p>
+                    <p class="text-sm sm:text-base text-gray-300 leading-relaxed">Yash Rajput is the visionary behind CyberOnix Solutions. With over a decade of experience in cybersecurity, he has a passion for building secure digital infrastructures and empowering the next generation of cybersecurity professionals. His expertise spans network security, ethical hacking, and advanced threat analysis, making him a trusted leader in the field.</p>
                 </div>
             </div>
         </div>
@@ -263,51 +263,52 @@
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
+
         // Particle Background with Three.js
-        window.onload = function () {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('particles'), antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            const particleCount = 2000;
-            const particlesGeometry = new THREE.BufferGeometry();
-            const positions = [];
-            const colors = [];
-            const color = new THREE.Color();
-            const particleMaterial = new THREE.PointsMaterial({
-                size: 2,
-                vertexColors: true,
-                sizeAttenuation: true,
-                transparent: true,
-                opacity: 0.7
-            });
-            for (let i = 0; i < particleCount; i++) {
-                const x = (Math.random() - 0.5) * 1000;
-                const y = (Math.random() - 0.5) * 1000;
-                const z = (Math.random() - 0.5) * 1000;
-                positions.push(x, y, z);
-                color.setHSL(0.5, 0.5, 0.8); // A nice blue-green color
-                colors.push(color.r, color.g, color.b);
-            }
-            particlesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            particlesGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            const particles = new THREE.Points(particlesGeometry, particleMaterial);
-            scene.add(particles);
-            camera.position.z = 500;
-            function animate() {
-                requestAnimationFrame(animate);
-                particles.rotation.x += 0.0005;
-                particles.rotation.y += 0.0007;
-                renderer.render(scene, camera);
-            }
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('particles'), antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        const particleCount = 2000;
+        const particlesGeometry = new THREE.BufferGeometry();
+        const positions = [];
+        const colors = [];
+        const color = new THREE.Color();
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 2,
+            vertexColors: true,
+            sizeAttenuation: true,
+            transparent: true,
+            opacity: 0.7
+        });
+        for (let i = 0; i < particleCount; i++) {
+            const x = (Math.random() - 0.5) * 1000;
+            const y = (Math.random() - 0.5) * 1000;
+            const z = (Math.random() - 0.5) * 1000;
+            positions.push(x, y, z);
+            color.setHSL(0.5, 0.5, 0.8); // A nice blue-green color
+            colors.push(color.r, color.g, color.b);
+        }
+        particlesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        particlesGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        const particles = new THREE.Points(particlesGeometry, particleMaterial);
+        scene.add(particles);
+        camera.position.z = 500;
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.0005;
+            particles.rotation.y += 0.0007;
+            renderer.render(scene, camera);
+        }
+        window.addEventListener('load', () => {
             animate();
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
-        };
+        });
         // Scroll Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
